@@ -1,14 +1,26 @@
 <script lang="ts">
   export let currentPage;
-  export let allpage;
-  
+  export let totalPages;
+  export let onPageChange;
+  function handlePrevious() {
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
+  }
+
+  function handleNext() {
+    if (currentPage < totalPages) {
+      onPageChange(currentPage + 1);
+    }
+  }
 </script>
 <div class="w-full center mt-10">
     <div class="flex items-center gap-8" style="justify-content: center;">
       <button
-        disabled
+      disabled={currentPage === 1}
         class="relative h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-lg border border-gray-900 text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:opacity-75 focus:ring focus:ring-gray-300 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
         type="button"
+        on:click={() => handlePrevious()} 
       >
         <span
           class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
@@ -34,11 +46,13 @@
         class="block font-sans text-base antialiased font-normal leading-relaxed text-gray-700"
       >
         Page <strong class="text-gray-900">{currentPage}</strong> of
-        <strong class="text-gray-900">{allpage}</strong>
+        <strong class="text-gray-900">{totalPages}</strong>
       </p>
       <button
+      disabled={currentPage === totalPages}
         class="relative h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-lg border border-gray-900 text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:opacity-75 focus:ring focus:ring-gray-300 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
         type="button"
+        on:click={() => handleNext()} 
       >
         <span
           class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
