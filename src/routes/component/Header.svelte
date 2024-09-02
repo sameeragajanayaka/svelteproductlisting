@@ -2,16 +2,21 @@
   import { categoryFilter, priceRangeFilter } from "../../stores";
 
   export let categories;
-  function updateCategory(event) {
-    categoryFilter.set(event.target.value);
+  export let handleSelectionChange;
+  export let handleInputMin;
+  export let handleInputMax;
+  export let handleapply;
+  function handleSelectionChangeHeader(event) {
+    handleSelectionChange(event);
   }
-  function updatePriceRange(index, event) {
-    const value = Number(event.target.value);
-    priceRangeFilter.update(currentRange => {
-      const newRange = [...currentRange];
-      newRange[index] = value;
-      return newRange;
-    });
+  function handleInputMinHeader(event) {
+    handleInputMin(event);
+  }
+  function handleInputMaxHeader(event) {
+    handleInputMax(event);
+  }
+  function handleapplyHeader(event) {
+    handleapply(event);
   }
   
 </script>
@@ -25,9 +30,7 @@
         <div class="flex items-center mb-5 gap-1">
           <p class="px-1 font-medium leading-6 text-black mr-2">Categroy</p>
           <select
-            id="category"
-            bind:value={$categoryFilter}
-            on:change={updateCategory}
+            bind:value={$categoryFilter} on:change={handleSelectionChangeHeader}
             class="h-10 border border-gray-300 text-gray-900 text-xs font-medium rounded-full block w-full py-2.5 px-4 appearance-none relative focus:outline-none bg-white"
           >
             <option value="">All Categories</option>
@@ -43,22 +46,20 @@
           <p class="px-1 font-medium leading-6 text-black mr-2">Price</p>
           <div class="relative w-full">
             <input
-              id="FromPrice"
               type="number"
               placeholder="From"
+              on:input={handleInputMinHeader}
               bind:value={$priceRangeFilter[0]}
-              on:input={(e) => updatePriceRange(0, e)}
               class="h-10 border border-gray-300 text-gray-900 text-xs font-medium rounded-full block w-full py-2.5 px-4 appearance-none relative focus:outline-none bg-white"
             />
           </div>
           <p class="px-1 font-normal text-sm leading-6 text-gray-600">to</p>
           <div class="relative w-full">
             <input
-              id="ToPrice"
               type="number"
               placeholder="To"
+              on:input={handleInputMaxHeader}
               bind:value={$priceRangeFilter[1]}
-              on:input={(e) => updatePriceRange(1, e)}
               class="h-10 border border-gray-300 text-gray-900 text-xs font-medium rounded-full block w-full py-2.5 px-4 appearance-none relative focus:outline-none bg-white"
             />
           </div>
@@ -67,6 +68,7 @@
 
       <div class="">
         <button
+        on:click={handleapplyHeader}
           class="w-full py-2.5 flex items-center justify-center gap-2 rounded-full bg-gray-600 text-white font-semibold text-xs shadow-sm shadow-transparent transition-all duration-500 hover:bg-black hover:shadow-indigo-200"
         >
           Apply
